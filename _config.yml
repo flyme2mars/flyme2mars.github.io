@@ -2,7 +2,7 @@
 title: martian
 tagline: "from red planet"
 description: "building things until we get to mars and colonize it"
-url: https://lanyon.getpoole.com
+url:
 baseurl: ""
 paginate: 5
 permalink: pretty
