@@ -1,7 +1,9 @@
 # Setup
 title: martian
 tagline: "from red planet"
-description: "building things until we get to mars and colonize it"
+description: >-
+  <h3 style="color: #FFFFFF">i'm martian</h3>i'm building things until we get to mars.<br> <br>follow me on
+  <a href="https://x.com/flyme2_mars">x</a>.
 url:
 baseurl: ""
 paginate: 5
