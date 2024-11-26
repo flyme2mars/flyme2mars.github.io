@@ -319,3 +319,36 @@ window.addEventListener('scroll', () => {
         nav.classList.remove('scrolled');
     }
 });
+
+// Loading screen management
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        loadingScreen.classList.add('fade-out');
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    typeEffect();
+    
+    // Add scroll animation for elements
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+});
+
+// Hide loading screen when everything is loaded
+window.addEventListener('load', () => {
+    // Wait a bit to ensure Three.js scene is ready
+    setTimeout(hideLoadingScreen, 1000);
+});

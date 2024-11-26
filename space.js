@@ -2,7 +2,8 @@ import * as THREE from 'three';
 
 // Three.js Space Background
 class SpaceBackground {
-    constructor() {
+    constructor(containerId) {
+        this.containerId = containerId;
         this.canvas = document.getElementById('space-background');
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -216,28 +217,32 @@ class SpaceBackground {
 
         // Enhanced atmosphere with more realistic glow
         const atmosphereGeometry = new THREE.SphereGeometry(5.2, 128, 128);
+        const atmosphereVertexShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            void main() {
+                vNormal = normalize(normalMatrix * normal);
+                vPosition = position;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+        const atmosphereFragmentShader = `
+            uniform float time;
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            void main() {
+                float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+                vec3 atmosphere = vec3(0.8, 0.3, 0.1) * pow(intensity, 1.5);
+                float pulse = sin(vPosition.x * 2.0 + vPosition.y * 2.0 + vPosition.z * 2.0 + time) * 0.1 + 0.9;
+                gl_FragColor = vec4(atmosphere * pulse, intensity * 0.5);
+            }
+        `;
         const atmosphereMaterial = new THREE.ShaderMaterial({
-            transparent: true,
+            vertexShader: atmosphereVertexShader,
+            fragmentShader: atmosphereFragmentShader,
+            blending: THREE.AdditiveBlending,
             side: THREE.BackSide,
-            vertexShader: `
-                varying vec3 vNormal;
-                varying vec3 vPosition;
-                void main() {
-                    vNormal = normalize(normalMatrix * normal);
-                    vPosition = position;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `,
-            fragmentShader: `
-                varying vec3 vNormal;
-                varying vec3 vPosition;
-                void main() {
-                    float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
-                    vec3 atmosphere = vec3(0.8, 0.3, 0.1) * pow(intensity, 1.5);
-                    float pulse = sin(vPosition.x * 2.0 + vPosition.y * 2.0 + vPosition.z * 2.0 + time) * 0.1 + 0.9;
-                    gl_FragColor = vec4(atmosphere * pulse, intensity * 0.5);
-                }
-            `,
+            transparent: true,
             uniforms: {
                 time: { value: 0 }
             }
@@ -497,18 +502,33 @@ class SpaceBackground {
     }
 
     onMouseClick(event) {
-        // Create explosion effect at click position
-        this.createExplosion(this.mouse.x * 30, this.mouse.y * 30, -20);
+        // Convert mouse position to normalized device coordinates (-1 to +1)
+        const mouse = new THREE.Vector2();
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Update the picking ray with the camera and mouse position
+        this.raycaster.setFromCamera(mouse, this.camera);
+
+        // Calculate intersection point with z-plane at -20
+        const planeNormal = new THREE.Vector3(0, 0, 1);
+        const planeConstant = -20;
+        const plane = new THREE.Plane(planeNormal, planeConstant);
+        const intersectionPoint = new THREE.Vector3();
+        this.raycaster.ray.intersectPlane(plane, intersectionPoint);
+
+        // Create explosion at intersection point
+        this.createExplosion(intersectionPoint.x, intersectionPoint.y, intersectionPoint.z);
     }
 
     createExplosion(x, y, z) {
-        const particleCount = 100;
+        const particleCount = 50;
         const geometry = new THREE.BufferGeometry();
         const material = new THREE.PointsMaterial({
-            size: 0.2,
+            size: 0.1,
             color: 0xff4d00,
             transparent: true,
-            opacity: 1,
+            opacity: 0.8,
             blending: THREE.AdditiveBlending
         });
 
@@ -520,9 +540,9 @@ class SpaceBackground {
             positions[i + 1] = y;
             positions[i + 2] = z;
 
-            velocities[i] = (Math.random() - 0.5) * 0.3;
-            velocities[i + 1] = (Math.random() - 0.5) * 0.3;
-            velocities[i + 2] = (Math.random() - 0.5) * 0.3;
+            velocities[i] = (Math.random() - 0.5) * 0.15;
+            velocities[i + 1] = (Math.random() - 0.5) * 0.15;
+            velocities[i + 2] = (Math.random() - 0.5) * 0.15;
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -532,7 +552,7 @@ class SpaceBackground {
         // Animate explosion
         let time = 0;
         const animate = () => {
-            time += 0.1;
+            time += 0.15;
             const positions = explosion.geometry.attributes.position.array;
 
             for (let i = 0; i < positions.length; i += 3) {
@@ -542,7 +562,7 @@ class SpaceBackground {
             }
 
             explosion.geometry.attributes.position.needsUpdate = true;
-            material.opacity = Math.max(0, 1 - time / 2);
+            material.opacity = Math.max(0, 0.8 - time / 1.5);
 
             if (time < 2) {
                 requestAnimationFrame(animate);
@@ -561,9 +581,14 @@ class SpaceBackground {
     }
 
     animate() {
-        requestAnimationFrame(() => this.animate());
+        requestAnimationFrame(this.animate.bind(this));
 
         const elapsedTime = this.clock.getElapsedTime();
+        this.scene.traverse((child) => {
+            if (child.material && child.material.uniforms && child.material.uniforms.time) {
+                child.material.uniforms.time.value = elapsedTime;
+            }
+        });
 
         // Rotate Mars
         if (this.planets[0]) {
@@ -614,5 +639,5 @@ class SpaceBackground {
 
 // Initialize space background
 window.addEventListener('DOMContentLoaded', () => {
-    new SpaceBackground();
+    new SpaceBackground('space-background');
 });
