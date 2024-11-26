@@ -10,7 +10,7 @@ const phrases = [
 let currentPhraseIndex = 0;
 let currentCharIndex = 0;
 let isDeleting = false;
-let typingSpeed = 100;
+let typingSpeed = 200; // Moderate typing speed (decreased from 300)
 
 function typeEffect() {
     const typedTextSpan = document.getElementById("typed-text");
@@ -19,20 +19,20 @@ function typeEffect() {
     if (isDeleting) {
         typedTextSpan.textContent = currentPhrase.substring(0, currentCharIndex - 1);
         currentCharIndex--;
-        typingSpeed = 50;
+        typingSpeed = 100; // Moderate deletion speed (decreased from 200)
     } else {
         typedTextSpan.textContent = currentPhrase.substring(0, currentCharIndex + 1);
         currentCharIndex++;
-        typingSpeed = 100;
+        typingSpeed = 200; // Moderate typing speed
     }
     
     if (!isDeleting && currentCharIndex === currentPhrase.length) {
         isDeleting = true;
-        typingSpeed = 1500; // Pause at end
+        typingSpeed = 2000; // Pause at end
     } else if (isDeleting && currentCharIndex === 0) {
         isDeleting = false;
         currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-        typingSpeed = 500; // Pause before starting new word
+        typingSpeed = 1000; // Pause before starting new word
     }
     
     setTimeout(typeEffect, typingSpeed);
