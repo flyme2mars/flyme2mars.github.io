@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshai Krishna S - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <canvas id="space-background"></canvas>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <nav>
+        <div class="nav-content">
+            <div class="logo">AKZ</div>
+            <button class="mobile-nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <canvas id="space-background"></canvas>
+        <div class="container">
+            <h1 class="glitch" data-text="Akshai Krishna S">Akshai Krishna S</h1>
+            <div class="typewriter">
+                <span id="typed-text"></span>
+                <span class="cursor"></span>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+            <p>Scroll to explore</p>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <h2>About Me</h2>
+                <p>I've been playing around with code for about three years now. I'm pretty into Machine Learning and Web
+                    Development. I'm most comfortable with Python and JavaScript, and I've also got some experience with C.
+                    When I'm not working on projects, you can find me participating in Kaggle competitions or learning new
+                    things.</p>
+                <p>I'm super curious about space and the possibility of humans becoming a multi-planetary species. I love following the progress of Starship and its ambitious plans to send humans to Mars. Who knows, maybe one day I'll get to explore the red planet myself!</p>
+            </div>
+            <div class="about-image">
+                <img src="./assets/profile.jpg" alt="Akshai Krishna S">
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="skills-container">
+            <h2>Skills & Technologies</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Languages</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-python"></i>
+                            <span>Python</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-js"></i>
+                            <span>JavaScript</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code"></i>
+                            <span>C</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Web Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-vuejs"></i>
+                            <span>Vue.js</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-rocket"></i>
+                            <span>FastAPI</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Tailwind CSS</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Machine Learning</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>PyTorch</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Scikit-learn</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-superscript"></i>
+                            <span>NumPy</span>
+                            <div class="skill-level">
+                                <div class="level-bar" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <!-- Projects will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p class="contact-description">Let's connect and explore opportunities together!</p>
+            <div class="contact-container">
+                <div class="contact-links">
+                    <a href="mailto:akshai404akz@gmail.com" class="contact-link email">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="https://github.com/flyme2mars" target="_blank" class="contact-link github">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/akshai-krishna-s-69032a202/" target="_blank" class="contact-link linkedin">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://x.com/aksh__ai" target="_blank" class="contact-link x">
+                        <i class="fab fa-brands fa-x-twitter"></i>
+                        <span>X</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="copyright"> 2024 Akshai Krishna S | Made with <i class="fas fa-heart"></i> and <i class="fas fa-rocket"></i></p>
+        </div>
+    </footer>
+
+    <script async src="https://unpkg.com/es-module-shims/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script type="module" src="space.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
