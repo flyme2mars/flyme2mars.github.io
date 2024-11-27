@@ -352,3 +352,34 @@ window.addEventListener('load', () => {
     // Wait a bit to ensure Three.js scene is ready
     setTimeout(hideLoadingScreen, 1000);
 });
+
+// Logo interaction effect
+const logo = document.querySelector('.logo');
+const letters = logo.querySelectorAll('.logo-letter');
+
+logo.addEventListener('mousemove', (e) => {
+    const rect = logo.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    
+    letters.forEach((letter, index) => {
+        const letterRect = letter.getBoundingClientRect();
+        const letterCenterX = letterRect.left + letterRect.width / 2 - rect.left;
+        const distance = Math.abs(mouseX - letterCenterX);
+        const maxDistance = rect.width / 2;
+        const intensity = 1 - Math.min(distance / maxDistance, 1);
+        
+        letter.style.textShadow = `
+            0 0 ${15 + intensity * 15}px rgba(255, 255, 0, ${0.8 + intensity * 0.2}),
+            0 0 ${30 + intensity * 20}px rgba(255, 255, 0, ${0.6 + intensity * 0.2}),
+            0 0 ${45 + intensity * 25}px rgba(255, 255, 0, ${0.4 + intensity * 0.2})
+        `;
+        letter.style.filter = `brightness(${1.2 + intensity * 0.3})`;
+    });
+});
+
+logo.addEventListener('mouseleave', () => {
+    letters.forEach(letter => {
+        letter.style.textShadow = '0 0 10px rgba(255, 255, 0, 0.8), 0 0 20px rgba(255, 255, 0, 0.5)';
+        letter.style.filter = 'brightness(1.2)';
+    });
+});
